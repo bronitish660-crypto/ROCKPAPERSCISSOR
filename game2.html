@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rock Paper Scissors</title>
+  <style>
+    body { 
+      font-family: Arial; 
+      text-align: center; 
+      padding: 50px; 
+      background: #f2f2f2; 
+    }
+    h1 { color: #333; }
+    button { 
+      padding: 15px 25px; 
+      margin: 10px; 
+      font-size: 18px; 
+      cursor: pointer; 
+      border: none;
+      border-radius: 8px;
+      transition: transform 0.2s, background 0.3s; 
+    }
+    button:hover { background: #ddd; }
+    button:active { transform: scale(1.2); }
+    #result { 
+      margin-top: 30px; 
+      font-size: 22px; 
+      opacity: 0; 
+      transition: opacity 0.5s; 
+    }
+    .win { color: green; text-shadow: 0 0 5px green, 0 0 10px green; animation: glow 1s ease-in-out infinite alternate; }
+    .lose { color: red; text-shadow: 0 0 5px red, 0 0 10px red; animation: glow 1s ease-in-out infinite alternate; }
+    .tie { color: orange; }
+    @keyframes glow {
+      from { text-shadow: 0 0 5px, 0 0 10px; }
+      to { text-shadow: 0 0 20px, 0 0 30px; }
+    }
+    #scoreboard { margin-top: 20px; font-size: 20px; }
+    #resetBtn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #888;
+      color: #fff;
+    }
+    #resetBtn:hover { background: #555; }
+  </style>
+</head>
+<body>
+  <h1>Rock Paper Scissors</h1>
+  <p>Choose your move:</p>
+  <button onclick="play('rock')">✊ Rock</button>
+  <button onclick="play('paper')">✋ Paper</button>
+  <button onclick="play('scissors')">✌ Scissors</button>
+
+  <div id="result"></div>
+  <div id="scoreboard">Your Score: 0 | Computer Score: 0</div>
+  <button id="resetBtn" onclick="resetGame()">Reset Game</button>
+
+  <script>
+    let userScore = 0;
+    let computerScore = 0;
+    const resultDiv = document.getElementById('result');
+    const scoreDiv = document.getElementById('scoreboard');
+
+    function play(userChoice) {
+      const choices = ['rock','paper','scissors'];
+      const computerChoice = choices[Math.floor(Math.random() * 3)];
+      let outcome = '';
+
+      if(userChoice === computerChoice){
+        outcome = "It's a tie!";
+        resultDiv.className = "tie";
+      } else if(
+        (userChoice === 'rock' && computerChoice === 'scissors') ||
+        (userChoice === 'paper' && computerChoice === 'rock') ||
+        (userChoice === 'scissors' && computerChoice === 'paper')
+      ){
+        outcome = "You win!";
+        userScore++;
+        resultDiv.className = "win";
+      } else {
+        outcome = "Computer wins!";
+        computerScore++;
+        resultDiv.className = "lose";
+      }
+
+      resultDiv.style.opacity = 0;
+      setTimeout(() => {
+        resultDiv.innerHTML = `You chose: <b>${userChoice}</b> <br>
+                               Computer chose: <b>${computerChoice}</b> <br>
+                               <b>${outcome}</b>`;
+        resultDiv.style.opacity = 1;
+      }, 100);
+
+      scoreDiv.innerHTML = `Your Score: ${userScore} | Computer Score: ${computerScore}`;
+    }
+
+    function resetGame() {
+      userScore = 0;
+      computerScore = 0;
+      scoreDiv.innerHTML = `Your Score: ${userScore} | Computer Score: ${computerScore}`;
+      resultDiv.innerHTML = '';
+      resultDiv.className = '';
+    }
+  </script>
+</body>
+</html>
