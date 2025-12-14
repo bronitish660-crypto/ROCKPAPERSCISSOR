@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class 8 MCQ Quiz</title>
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background:#0f172a;
+      color:#e5e7eb;
+      margin:0;
+      padding:20px;
+      overflow-x:hidden;
+    }
+    .card{
+      max-width:800px;
+      margin:auto;
+      background:#020617;
+      border-radius:16px;
+      padding:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,.4);
+    }
+    h1{text-align:center;}
+    .q{margin:16px 0;}
+    .opts label{
+      display:block;
+      padding:10px;
+      margin:6px 0;
+      border:1px solid #1f2937;
+      border-radius:10px;
+      cursor:pointer;
+    }
+    button{
+      margin-top:20px;
+      padding:12px 18px;
+      border:none;
+      border-radius:12px;
+      background:#22c55e;
+      font-size:16px;
+      cursor:pointer;
+    }
+    .result{margin-top:16px;font-size:18px;}
+    .emoji{
+      position:fixed;
+      font-size:26px;
+      animation:floatUp 1.2s ease-out forwards;
+      pointer-events:none;
+    }
+    @keyframes floatUp{
+      from{transform:translateY(0) scale(1);opacity:1;}
+      to{transform:translateY(-60px) scale(1.6);opacity:0;}
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Class 8 MCQ Quiz (20)</h1>
+    <form id="quiz"></form>
+    <button type="button" onclick="check()">Submit</button>
+    <div id="res" class="result"></div>
+  </div>
+
+<script>
+  const clickSound = new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=');
+
+  function popEmoji(x,y){
+    const emojis=['🔥','✨','😎','🎉','✅'];
+    const e=document.createElement('div');
+    e.className='emoji';
+    e.innerText=emojis[Math.floor(Math.random()*emojis.length)];
+    e.style.left=x+'px';
+    e.style.top=y+'px';
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),1200);
+  }
+
+  const questions=[
+    {q:'1) Photosynthesis mainly occurs in?',o:['Root','Stem','Leaf','Flower'],a:2},
+    {q:'2) SI unit of force?',o:['Joule','Newton','Watt','Pascal'],a:1},
+    {q:'3) Acid turns blue litmus to?',o:['Blue','Red','Green','Yellow'],a:1},
+    {q:'4) Cell discovered by?',o:['Newton','Darwin','Robert Hooke','Einstein'],a:2},
+    {q:'5) Respiration releases which gas?',o:['Oxygen','Hydrogen','Carbon dioxide','Nitrogen'],a:2},
+    {q:'6) Square of 12?',o:['124','144','132','156'],a:1},
+    {q:'7) 3x + 5 = 14, x = ?',o:['1','2','3','4'],a:2},
+    {q:'8) Area of rectangle = l × ?',o:['h','b','w','r'],a:2},
+    {q:'9) Cube has how many faces?',o:['4','5','6','8'],a:2},
+    {q:'10) Value of π (approx)?',o:['2.14','3.14','3.41','4.13'],a:1},
+    {q:'11) Who wrote Arthashastra?',o:['Ashoka','Chanakya','Kalidasa','Tulsidas'],a:1},
+    {q:'12) Capital of Mughal Empire?',o:['Agra','Delhi','Lahore','Fatehpur Sikri'],a:0},
+    {q:'13) British East India Company came in?',o:['1600','1700','1800','1500'],a:0},
+    {q:'14) First Mughal emperor?',o:['Akbar','Babur','Humayun','Jahangir'],a:1},
+    {q:'15) Indus Valley city?',o:['Ayodhya','Harappa','Ujjain','Mathura'],a:1},
+    {q:'16) Largest continent?',o:['Africa','Asia','Europe','Australia'],a:1},
+    {q:'17) Lines joining equal pressure?',o:['Isobars','Isotherms','Isohyets','Latitudes'],a:0},
+    {q:'18) Tropic of Cancer passes through India?',o:['Yes','No','Sometimes','Never'],a:0},
+    {q:'19) Synonym of Happy?',o:['Sad','Angry','Joyful','Lazy'],a:2},
+    {q:'20) Noun is a name of?',o:['Action','Quality','Person/Place/Thing','Relation'],a:2}
+  ];
+
+  const quiz=document.getElementById('quiz');
+  questions.forEach((x,i)=>{
+    const d=document.createElement('div');
+    d.className='q';
+    d.innerHTML=`<b>${x.q}</b><div class='opts'>${x.o.map((op,oi)=>`<label><input type='radio' name='q${i}' value='${oi}'> ${op}</label>`).join('')}</div>`;
+    quiz.appendChild(d);
+  });
+
+  document.addEventListener('click',(e)=>{
+    if(e.target.tagName==='INPUT'){
+      clickSound.currentTime=0;
+      clickSound.play();
+      popEmoji(e.clientX,e.clientY);
+    }
+  });
+
+  function check(){
+    let score=0;
+    questions.forEach((x,i)=>{
+      const c=document.querySelector(`input[name='q${i}']:checked`);
+      if(c && +c.value===x.a) score++;
+    });
+    document.getElementById('res').innerText=`Score: ${score} / ${questions.length}`;
+  }
+</script>
+</body>
+</html>
